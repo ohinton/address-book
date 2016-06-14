@@ -20,6 +20,16 @@ Address.prototype.fullAddress = function() {
   return this.typeAddress + ": " + this.street + ", " + this.city + ", " + this.state;
 }
 
+var resetFields = function () {
+  $("input#new-first-name").val("");
+  $("input#new-last-name").val("");
+  $(".address-type").val("");
+  $("input.new-street").val("");
+  $("input.new-city").val("");
+  $("input.new-state").val("");
+  $(".new-address").not(":first-child").remove();
+};
+
 // user interface logic
 $(document).ready(function() {
 
@@ -78,12 +88,6 @@ $(document).ready(function() {
         $("ul#addresses").append("<li>" + address.fullAddress() + "</li>");
       });
     });
-
-    $("input#new-first-name").val("");
-    $("input#new-last-name").val("");
-    $("input.new-street").val("");
-    $("input.new-city").val("");
-    $("input.new-state").val("");
-
+    resetFields();
   });
 });
