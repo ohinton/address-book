@@ -5,7 +5,8 @@ function Contact(first, last) {
   this.addresses = [];
 }
 
-function Address(street, city, state) {
+function Address(typeAddress, street, city, state) {
+  this.typeAddress = typeAddress;
   this.street = street;
   this.city = city;
   this.state = state;
@@ -16,27 +17,37 @@ Contact.prototype.fullName = function() {
 }
 
 Address.prototype.fullAddress = function() {
-  return this.street + ", " + this.city + ", " + this.state;
+  return this.typeAddress + ": " + this.street + ", " + this.city + ", " + this.state;
 }
 
 // user interface logic
 $(document).ready(function() {
 
   $("#add-address").click(function() {
-    $("#new-addresses").append('<div class="new-address">' +
-                                 '<div class="form-group">' +
-                                   '<label for="new-street">Street</label>' +
-                                   '<input type="text" class="form-control new-street">' +
-                                 '</div>' +
-                                 '<div class="form-group">' +
-                                   '<label for="new-city">City</label>' +
-                                   '<input type="text" class="form-control new-city">' +
-                                 '</div>' +
-                                 '<div class="form-group">' +
-                                   '<label for="new-state">State</label>' +
-                                   '<input type="text" class="form-control new-state">' +
-                                 '</div>' +
-                               '</div>');
+    $("#new-addresses").append(
+      '<div class="new-address">' +
+        '<div class="form-group">' +
+          '<label for="address-type">Address Type</label>' +
+          '<select class="form-control address-type">'+
+            '<option>Home</option>'+
+            '<option>Mailing</option>' +
+            '<option>Work</option>' +
+            '<option>Other</option>' +
+          '</select>' +
+        '</div>' +
+        '<div class="form-group">' +
+          '<label for="new-street">Street</label>' +
+           '<input type="text" class="form-control new-street">' +
+         '</div>' +
+         '<div class="form-group">' +
+           '<label for="new-city">City</label>' +
+           '<input type="text" class="form-control new-city">' +
+         '</div>' +
+         '<div class="form-group">' +
+           '<label for="new-state">State</label>' +
+           '<input type="text" class="form-control new-state">' +
+         '</div>' +
+       '</div>');
   });
 
   $("form#new-contact").submit(function(event) {
@@ -47,10 +58,11 @@ $(document).ready(function() {
     var newContact = new Contact(inputtedFirstName, inputtedLastName);
 
     $(".new-address").each(function() {
+      var inputtedType = $(this).find(".address-type").val();
       var inputtedStreet = $(this).find("input.new-street").val();
       var inputtedCity = $(this).find("input.new-city").val();
       var inputtedState = $(this).find("input.new-state").val();
-      var newAddress = new Address(inputtedStreet, inputtedCity, inputtedState)
+      var newAddress = new Address(inputtedType, inputtedStreet, inputtedCity, inputtedState)
       newContact.addresses.push(newAddress)
     });
 
